@@ -45,11 +45,11 @@ public class JwtFilter extends OncePerRequestFilter {  //FilterChain에서 권�
             filterChain.doFilter(request, response);
             return;
         }
-        String userName=JwtUtil.getUserName(token, secretKey);
-        log.info("userName: ", userName);
+        String email=JwtUtil.getEmail(token, secretKey);
+        log.info("email: ", email);
 
         UsernamePasswordAuthenticationToken authenticationToken=
-                new UsernamePasswordAuthenticationToken(userName, null, List.of(new
+                new UsernamePasswordAuthenticationToken(email, null, List.of(new
                         SimpleGrantedAuthority("USER")));
         //디테일넣기
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

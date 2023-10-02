@@ -7,9 +7,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 
 public class JwtUtil {  //토큰생성유틸
-    public static String createJwt(String userName, String secretKey, Long expiredMs){
+    public static String createJwt(String email, String secretKey, Long expiredMs){
         Claims claims= Jwts.claims();
-        claims.put("userName", userName);
+        claims.put("email", email);  //여기서 "email"은 키 느낌
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -23,8 +23,8 @@ public class JwtUtil {  //토큰생성유틸
                getExpiration().before(new Date()); 
     }
     
-    public static String getUserName(String token, String secretKey){  //토큰에서 userName꺼내기
+    public static String getEmail(String token, String secretKey){  //토큰에서 userName꺼내기
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().get("userName", String.class);
+                .getBody().get("email", String.class);  //"email"이라는 키로 꺼내기
     }
 }
