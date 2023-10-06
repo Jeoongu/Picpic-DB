@@ -1,6 +1,7 @@
 package com.likelion.picpic.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +50,7 @@ public class S3Service {
 
     }
 
-    // 버킷에 올라간 파일 삭제
+    // 버킷에 올라간 파일 삭제, 버킷내의 폴더를 두어 할 경우 수정해야할듯
     public void deleteImage(String originalFilename)  {
         amazonS3.deleteObject(bucket, originalFilename);
     }
