@@ -29,10 +29,8 @@ public class S3Service {
     @Value("&{jwt.secret}")
     private String secretKey;
 
-    public Long getUserId(String token){
-        //토큰으로 userId가져오기
-        String userEmail=JwtUtil.getEmail(token, secretKey);
-        Long userId=userService.findUserId(userEmail);
+    public Long getUserId(String email){
+        Long userId=userService.findUserId(email);
         //토큰으로 userId가져오기
         return userId;
     }
@@ -42,9 +40,9 @@ public class S3Service {
     getURl()을 통해 파일이 저장된 URL을 return 해주고,
     이 URL로 이동 시 해당 파일이 오픈됨(버킷 정책 변경 완료)
      */
-    public String saveFile(String directory,String token, MultipartFile multipartFile) throws IOException {
+    public String saveFile(String directory,String email, MultipartFile multipartFile) throws IOException {
         //TODO: String directory는 Frame이거나 그림일기의 그림이거나 나눠주는 디렉토리
-        Long userId=getUserId(token);
+        Long userId=getUserId(email);
         //타임 스탬프로 파일이 계속 덮혀 쓰여지는 것 방지
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
         String originalFilename = directory+"/"+userId+"/"+timeStamp+"_"+multipartFile.getOriginalFilename();
@@ -78,8 +76,8 @@ public class S3Service {
 
     
     //userId로 이미지 저장된거 다 가져오기
-    public List<String> findImageUrlsByUserId(String token, String directory) {
-        Long userId=getUserId(token);
+    public List<String> findImageUrlsByUserId(String email, String directory) {
+        Long userId=getUserId(email);
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
                 .withBucketName(bucket)
                 .withPrefix(directory+"/"+userId + "/");

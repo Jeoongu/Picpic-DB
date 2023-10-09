@@ -29,9 +29,9 @@ public class PhotoBookController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
-    public ResponseEntity<?> savePhotoBook(@RequestHeader("Authorization")String token,
+    public ResponseEntity<?> savePhotoBook(Authentication authentication,
                                            @RequestBody String name){
-        Long userId= s3Service.getUserId(token);
+        Long userId= s3Service.getUserId(authentication.getName());
         photoBookService.savePhotoBook(userId, name);
         return ResponseEntity.ok().build();
     }

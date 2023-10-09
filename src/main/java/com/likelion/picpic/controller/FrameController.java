@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,9 +28,10 @@ public class FrameController {
             @ApiResponse(code = 401, message = "실패")
     })
     public ResponseEntity<?> saveFrame(@RequestBody MultipartFile frame,
-                                       @RequestHeader("Authorization")String token)
+                                       Authentication authentication)
             throws IOException {
-        s3Service.saveFile("frame",token, frame);
+        String email=authentication.getName();
+        s3Service.saveFile("frame",email, frame);
         return ResponseEntity.ok().build();
     }
 
@@ -39,8 +41,8 @@ public class FrameController {
             @ApiResponse(code = 401, message = "실패")
     })
     @GetMapping("/find")
-    public ResponseEntity<List<String>> findFrame(@RequestHeader("Authorization")String token){
-        List<String> urlsList=s3Service.findImageUrlsByUserId(token, "frame");
+    public ResponseEntity<List<String>> findFrame(Authentication authentication){
+        List<String> urlsList=s3Service.findImageUrlsByUserId(authentication.getName(), "frame");
         return ResponseEntity.ok().body(urlsList);
     }
 
@@ -50,11 +52,9 @@ public class FrameController {
             @ApiResponse(code = 401, message = "실패")
     })
     @DeleteMapping("/delete/{productId}")
-    public ResponseEntity<?> deleteFrame(@PathVariable("productId") Long productId,
-                                         @RequestHeader("Authorization")String token){
-        //TODO: 이거 프레임 아이디 어떻게 프론트가 알고 보내지?
-        //TODO: S3Service에서 이미지명으로 지우던데 이미지명은 어떻게 알지?
-        s3Service.deleteImage("NULL");
+    public ResponseEntity<?> deleteFrame(Authentication authentication,
+                                         String url){
+        s3Service.deleteImage("url");
         return ResponseEntity.ok().build();
     }
 }
