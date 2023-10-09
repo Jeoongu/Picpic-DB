@@ -28,8 +28,16 @@ public class AuthenticationConfig{
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/user/join", "/user/login").permitAll()  //허용
-                .antMatchers(HttpMethod.POST,"/review/**").authenticated() //비허용
+                .antMatchers(
+                        "/user/join",
+                        "/user/login",
+                        "/swagger-ui/**",
+                        "/webjars/**",
+                        "/v2/api-docs",
+                        "/swagger-resources/**"
+                ).permitAll()  // 허용
+                //.antMatchers(HttpMethod.POST,"/review/**").authenticated() //비허용
+                .anyRequest().authenticated()  //회원가입, 로그인 제외 모든 요청에 인증 요구
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //jwt사용

@@ -4,6 +4,8 @@ import com.likelion.picpic.dto.UserJoinDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -17,6 +19,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id")
     private Long id;
+
+    @OneToMany(mappedBy = "frame")
+    private final List<Frame> frames=new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="photo_book_id")
+    private PhotoBook photoBook;
 
     @Column
     private String email;
@@ -35,6 +44,7 @@ public class User {
 
     @Column
     private String gender;
+
 
     public static User from(UserJoinDto userDto){
         return User.builder()

@@ -78,7 +78,8 @@ public class S3Service {
 
     
     //userId로 이미지 저장된거 다 가져오기
-    public List<String> findImageUrlsByUserId(String userId, String directory) {
+    public List<String> findImageUrlsByUserId(String token, String directory) {
+        Long userId=getUserId(token);
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
                 .withBucketName(bucket)
                 .withPrefix(directory+"/"+userId + "/");
