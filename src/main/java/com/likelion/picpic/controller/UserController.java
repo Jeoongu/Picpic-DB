@@ -3,6 +3,9 @@ package com.likelion.picpic.controller;
 import com.likelion.picpic.dto.UserEmailAndPassword;
 import com.likelion.picpic.dto.UserJoinDto;
 import com.likelion.picpic.service.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,11 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @ApiOperation(value = "로그인 api", notes = "jwt 로그인 api")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "로그인 성공"),
+            @ApiResponse(code = 401, message = "로그인 실패")
+    })
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserEmailAndPassword userEmailAndPassword){
         //토큰만 발급됨(로그인 성공시)
