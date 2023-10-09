@@ -43,7 +43,7 @@ public class SwaggerConfig {
         Set<String> consumes = new HashSet<>();
         consumes.add("application/json;charset=UTF-8");
         consumes.add("application/x-www-form-urlencoded");
-        consumes.add("multipart/form-data");
+        consumes.add("multipart/form-data");  //이미지 받는 타입
         return consumes;
     }
 

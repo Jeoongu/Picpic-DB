@@ -1,8 +1,7 @@
 package com.likelion.picpic.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.*;
 import com.likelion.picpic.domain.User;
 import com.likelion.picpic.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -41,10 +42,12 @@ public class S3Service {
     getURl()을 통해 파일이 저장된 URL을 return 해주고,
     이 URL로 이동 시 해당 파일이 오픈됨(버킷 정책 변경 완료)
      */
-    public String saveFile(String token, MultipartFile multipartFile) throws IOException {
+    public String saveFile(String directory,String token, MultipartFile multipartFile) throws IOException {
+        //TODO: String directory는 Frame이거나 그림일기의 그림이거나 나눠주는 디렉토리
         Long userId=getUserId(token);
+        //타임 스탬프로 파일이 계속 덮혀 쓰여지는 것 방지
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
-        String originalFilename = userId+"/"+timeStamp+"_"+multipartFile.getOriginalFilename();
+        String originalFilename = directory+"/"+userId+"/"+timeStamp+"_"+multipartFile.getOriginalFilename();
 
 
         ObjectMetadata metadata = new ObjectMetadata();
@@ -71,6 +74,30 @@ public class S3Service {
     // 버킷에 올라간 파일 삭제, 버킷내의 폴더를 두어 할 경우 수정해야할듯
     public void deleteImage(String originalFilename)  {
         amazonS3.deleteObject(bucket, originalFilename);
+    }
+
+    
+    //userId로 이미지 저장된거 다 가져오기
+    public List<String> findImageUrlsByUserId(String userId, String directory) {
+        ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
+                .withBucketName(bucket)
+                .withPrefix(directory+"/"+userId + "/");
+
+        ObjectListing objectListing = amazonS3.listObjects(listObjectsRequest);
+
+        List<String> imageUrls = new ArrayList<>();
+        do {
+            for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
+                String imageUrl = amazonS3.getUrl(bucket, objectSummary.getKey()).toString();
+                imageUrls.add(imageUrl);
+            }
+
+            // S3 객체 목록 요청은 페이지네이션될 수 있으므로, 다음 페이지가 있으면 계속 가져옵니다.
+            listObjectsRequest.setMarker(objectListing.getNextMarker());
+            objectListing = amazonS3.listObjects(listObjectsRequest);
+        } while (objectListing.isTruncated());
+
+        return imageUrls;
     }
 }
 
