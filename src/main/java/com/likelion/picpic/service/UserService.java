@@ -37,4 +37,12 @@ public class UserService {
         }
         else throw new DataNotFoundException("일치하는 회원 정보가 없습니다.");
     }
+
+    public Long findUserId(String email){
+        Optional<User> optUser=userRepository.findByEmail(email);
+        if(optUser.isPresent()){
+            return optUser.get().getId();
+        }
+        else throw new DataNotFoundException("이메일과 일치하는 회원 정보가 없습니다.");
+    }
 }
