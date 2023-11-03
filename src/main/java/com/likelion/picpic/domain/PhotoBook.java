@@ -3,6 +3,8 @@ package com.likelion.picpic.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "photoBook")
 @Getter
@@ -18,8 +20,14 @@ public class PhotoBook {
     @OneToOne(mappedBy = "photoBook")
     private User user;
 
+    @OneToMany(mappedBy = "memo")
+    private final List<Memo> memoList=new ArrayList<>();
+
     @Column
     private String name;
+
+    @Column
+    private List<String> photoList;
 
     public static PhotoBook from(User userF, String nameF){
         return PhotoBook.builder()
