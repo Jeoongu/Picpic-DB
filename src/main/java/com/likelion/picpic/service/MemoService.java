@@ -39,8 +39,8 @@ public class MemoService {
     public void deleteMemo(MemoCreateDto memoCreateDto){
         int x= memoCreateDto.getX();
         int y= memoCreateDto.getY();
-        int pNum= memoCreateDto.getPNum();
-        Optional<Memo> optMemo=memoRepository.findByXAndYAndPNum(x,y,pNum);
+        int pNum= memoCreateDto.getPageNum();
+        Optional<Memo> optMemo=memoRepository.findByXAndYAndPageNum(x,y,pNum);
         if(optMemo.isPresent()){
             Memo memo=optMemo.get();
             memoRepository.delete(memo);

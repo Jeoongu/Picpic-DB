@@ -27,7 +27,7 @@ public class Memo {
     private int y;
 
     @Column
-    private int pNum;
+    private int pageNum;
 
     @Column
     private String content;
@@ -36,7 +36,7 @@ public class Memo {
         return Memo.builder()
                 .x(memoCreateDto.getX())
                 .y(memoCreateDto.getY())
-                .pNum(memoCreateDto.getPNum())
+                .pageNum(memoCreateDto.getPageNum())
                 .content(memoCreateDto.getContent())
                 .photoBook(photoBook)
                 .build();

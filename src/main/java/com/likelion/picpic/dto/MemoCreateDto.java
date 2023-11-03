@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class MemoCreateDto {
     private int x;
     private int y;
-    private int pNum;
+    private int pageNum;
     private String content;
 }

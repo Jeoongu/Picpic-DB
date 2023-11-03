@@ -20,15 +20,16 @@ public class PhotoBook {
     @OneToOne(mappedBy = "photoBook")
     private User user;
 
-    @OneToMany(mappedBy = "memo")
+    @OneToMany(mappedBy = "photoBook")
     private final List<Memo> memoList=new ArrayList<>();
 
     @Column
     private String name;
 
+    /*
     @Column
     private List<String> photoList;
-
+    */
     public static PhotoBook from(User userF, String nameF){
         return PhotoBook.builder()
                 .user(userF)
