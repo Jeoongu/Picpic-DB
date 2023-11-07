@@ -14,34 +14,34 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .antMatchers("/**")
-                //.requestMatchers(new AntPathRequestMatcher("/**"))
-                .permitAll()
-                .and()
-                // CORS 설정
-                .cors(c -> {
-                    CorsConfigurationSource source = request -> {
-                        // CORS 허용 패턴
-                        CorsConfiguration config = new CorsConfiguration();
-                        config.setAllowedOrigins(
-                                List.of("*")
-                        );
-                        config.setAllowedMethods(
-                                List.of("*")
-                        );
-                        config.setAllowedHeaders(
-                                List.of("*")
-                        );
-
-                        return config;
-                    };
-                    c.configurationSource(source);
-                });
-        return http.build();
-    }
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf().disable()
+//                .authorizeHttpRequests()
+//                .antMatchers("/**")
+//                //.requestMatchers(new AntPathRequestMatcher("/**"))
+//                .permitAll()
+//                .and()
+//                // CORS 설정
+//                .cors(c -> {
+//                    CorsConfigurationSource source = request -> {
+//                        // CORS 허용 패턴
+//                        CorsConfiguration config = new CorsConfiguration();
+//                        config.setAllowedOrigins(
+//                                List.of("*")
+//                        );
+//                        config.setAllowedMethods(
+//                                List.of("*")
+//                        );
+//                        config.setAllowedHeaders(
+//                                List.of("*")
+//                        );
+//
+//                        return config;
+//                    };
+//                    c.configurationSource(source);
+//                });
+//        return http.build();
+//    }
 }
