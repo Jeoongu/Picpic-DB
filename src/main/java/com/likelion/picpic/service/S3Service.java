@@ -98,5 +98,27 @@ public class S3Service {
 
         return imageUrls;
     }
+
+    public List<String> findStickerImageUrls(String directory, String theme) {
+        ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
+                .withBucketName(bucket)
+                .withPrefix(directory+"/"+theme + "/");
+
+        ObjectListing objectListing = amazonS3.listObjects(listObjectsRequest);
+
+        List<String> imageUrls = new ArrayList<>();
+        do {
+            for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
+                String imageUrl = amazonS3.getUrl(bucket, objectSummary.getKey()).toString();
+                imageUrls.add(imageUrl);
+            }
+
+            // S3 객체 목록 요청은 페이지네이션될 수 있으므로, 다음 페이지가 있으면 계속 가져옵니다.
+            listObjectsRequest.setMarker(objectListing.getNextMarker());
+            objectListing = amazonS3.listObjects(listObjectsRequest);
+        } while (objectListing.isTruncated());
+
+        return imageUrls;
+    }
 }
 

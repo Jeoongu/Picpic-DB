@@ -20,8 +20,11 @@ public class User {
     @Column(name="user_id")
     private Long id;
 
-    @OneToMany(mappedBy = "frame")
+    @OneToMany(mappedBy = "user")
     private final List<Frame> frames=new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private final List<Photo> photoList = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="photo_book_id")
