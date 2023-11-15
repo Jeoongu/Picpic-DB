@@ -32,6 +32,9 @@ public class Memo {
     @Column
     private String content;
 
+    @Column
+    private int emojiNum;
+
     public static Memo from(MemoCreateDto memoCreateDto, PhotoBook photoBook){
         return Memo.builder()
                 .x(memoCreateDto.getX())
@@ -39,6 +42,7 @@ public class Memo {
                 .pageNum(memoCreateDto.getPageNum())
                 .content(memoCreateDto.getContent())
                 .photoBook(photoBook)
+                .emojiNum(memoCreateDto.getEmojiNum())
                 .build();
     }
 }

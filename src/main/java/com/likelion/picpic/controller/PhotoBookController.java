@@ -1,5 +1,6 @@
 package com.likelion.picpic.controller;
 
+import com.likelion.picpic.dto.CreatePhotoBookDto;
 import com.likelion.picpic.repository.PhotoBookRepository;
 import com.likelion.picpic.service.PhotoBookService;
 import com.likelion.picpic.service.S3Service;
@@ -11,10 +12,9 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/photoBook")
 @RequiredArgsConstructor
@@ -24,15 +24,15 @@ public class PhotoBookController {
     private final PhotoBookService photoBookService;
     private final S3Service s3Service;
 
-    @ApiOperation(value = "포토북 저장 api", notes = "헤더로 토큰, 바디로 포토북 이름 주면돼")
+    @ApiOperation(value = "포토북 저장 api", notes = "헤더로 토큰, 바디로 JSON(name, addPhotoList")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
     public ResponseEntity<?> savePhotoBook(Authentication authentication,
-                                           @RequestBody String name){
+                                           @RequestBody CreatePhotoBookDto createPhotoBookDto){
         Long userId= s3Service.getUserId(authentication.getName());
-        photoBookService.savePhotoBook(userId, name);
+        photoBookService.savePhotoBook(userId, createPhotoBookDto);
         return ResponseEntity.ok().build();
     }
 }

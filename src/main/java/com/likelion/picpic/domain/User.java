@@ -48,8 +48,9 @@ public class User {
     @Column
     private String gender;
 
+    private static List<String> checkedPhotoList;  //사용자가 동적포토북으로 만들기로 한 사진들 저장한거
 
-    public static User from(UserJoinDto userDto){
+   public static User from(UserJoinDto userDto){
         return User.builder()
                 .email(userDto.getEmail())
                 .password(userDto.getPassword())

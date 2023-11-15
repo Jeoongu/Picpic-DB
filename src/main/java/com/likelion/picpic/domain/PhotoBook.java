@@ -1,5 +1,6 @@
 package com.likelion.picpic.domain;
 
+import com.likelion.picpic.dto.CreatePhotoBookDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,14 +27,14 @@ public class PhotoBook {
     @Column
     private String name;
 
-    /*
     @Column
-    private List<String> photoList;
-    */
-    public static PhotoBook from(User userF, String nameF){
+    private List<String> photoList;  //동적 포토북 사진 리스트
+
+    public static PhotoBook from(User userF, CreatePhotoBookDto createPhotoBookDto){
         return PhotoBook.builder()
                 .user(userF)
-                .name(nameF)
+                .name(createPhotoBookDto.getName())
+                .photoList(createPhotoBookDto.getAddPhotoList())
                 .build();
     }
 }

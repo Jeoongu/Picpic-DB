@@ -45,4 +45,9 @@ public class UserService {
         }
         else throw new DataNotFoundException("이메일과 일치하는 회원 정보가 없습니다.");
     }
+
+    public void checkEmail(String email){
+        Optional<User> optUser=userRepository.findByEmail(email);
+        if(optUser.isEmpty()) throw new DataNotFoundException("이메일이 이미 존재합니다.");
+    }
 }
