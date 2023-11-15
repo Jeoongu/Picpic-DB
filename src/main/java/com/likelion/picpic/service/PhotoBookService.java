@@ -28,4 +28,13 @@ public class PhotoBookService {
         }
         else throw new DataNotFoundException("해당 유저를 찾지 못하였습니다.");
     }
+
+    public List<String> getPhotoList(Long userId){
+        Optional<User> optUser=userRepository.findById(userId);
+        if(optUser.isEmpty()) throw new DataNotFoundException("유저를 찾지 못하였습니다.");
+        User user=optUser.get();
+        Optional<PhotoBook> optPhotoBook=photoBookRepository.findByUser(user);
+        if(optPhotoBook.isEmpty()) throw new DataNotFoundException("포토북이 존재하지 않습니다.");
+        return optPhotoBook.get().getPhotoList();
+    }
 }

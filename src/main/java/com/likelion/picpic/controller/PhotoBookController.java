@@ -29,10 +29,22 @@ public class PhotoBookController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
+    @PostMapping("/save")
     public ResponseEntity<?> savePhotoBook(Authentication authentication,
                                            @RequestBody CreatePhotoBookDto createPhotoBookDto){
         Long userId= s3Service.getUserId(authentication.getName());
         photoBookService.savePhotoBook(userId, createPhotoBookDto);
         return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "포토북 사진 리스트 가져오기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "실패")
+    })
+    @GetMapping("/get")
+    public ResponseEntity<?> getPhotoList(Authentication authentication){
+        Long userId= s3Service.getUserId(authentication.getName());
+        return ResponseEntity.ok().body(photoBookService.getPhotoList(userId));
     }
 }
