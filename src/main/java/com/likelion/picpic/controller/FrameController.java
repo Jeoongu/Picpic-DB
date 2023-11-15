@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,24 @@ public class FrameController {
                                          String url){
         s3Service.deleteImage("url");
         return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "특정 Frame 수정하기", notes = "이미지명으로 받아야돼")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "실패")
+    })
+    @PutMapping("/update")
+    public ResponseEntity<?> updateFrame(Authentication authentication,
+                                         String url, @RequestPart MultipartFile frame){
+        try {
+            s3Service.updateFile(url, frame);
+            return new ResponseEntity<>("삭제에 성공하셨습니다.", HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("삭제에 실패하셨습니다.", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @ApiOperation(value = "스티커 가져오기", notes = "테마 이름 줘야돼")

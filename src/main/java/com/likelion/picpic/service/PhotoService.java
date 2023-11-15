@@ -26,4 +26,16 @@ public class PhotoService {
         photoRepository.save(photo);
         return;
     }
+    // 이렇게만 해도 되나?
+    public void deletePhoto(Long userId, String url){
+//        Optional<User> optUser=userRepository.findById(userId);
+//        if(optUser.isEmpty()) throw new DataNotFoundException("유저를 찾지 못하였습니다.");
+//        User user=optUser.get();
+        Optional<Photo> optPhoto = photoRepository.findByUrl(url);
+        if(optPhoto.isEmpty()) throw new DataNotFoundException("포토를 찾지 못하였습니다.");
+        Photo photo = optPhoto.get();
+
+        photoRepository.delete(photo);
+    }
 }
+

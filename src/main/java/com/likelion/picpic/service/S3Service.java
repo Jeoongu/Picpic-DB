@@ -56,6 +56,17 @@ public class S3Service {
         return amazonS3.getUrl(bucket, originalFilename).toString();
     }
 
+    public String updateFile(String url, MultipartFile multipartFile) throws IOException{
+
+        // 기존 객체 삭제
+        if (amazonS3.doesObjectExist(bucket, url)) {
+            amazonS3.deleteObject(new DeleteObjectRequest(bucket, url));
+        }
+        // 새로운 객체 업로드
+        amazonS3.putObject(new PutObjectRequest(bucket, url, multipartFile.getInputStream(), null));
+        return amazonS3.getUrl(bucket, url).toString();
+
+    }
     // 이미지 다운로드, 리턴값 변경 필요한지 찾아봐야함.
     public ResponseEntity<UrlResource> downloadImage(String originalFilename) {
         UrlResource urlResource = new UrlResource(amazonS3.getUrl(bucket, originalFilename));
