@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -48,7 +49,11 @@ public class User {
     @Column
     private String gender;
 
+    @Column
+    private String uuid;
+
     private static List<String> checkedPhotoList;  //사용자가 동적포토북으로 만들기로 한 사진들 저장한거
+
 
    public static User from(UserJoinDto userDto){
         return User.builder()
