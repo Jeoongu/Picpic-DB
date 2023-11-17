@@ -21,8 +21,8 @@ public class MemoService {
     private final PhotoBookRepository photoBookRepository;
     private final UserRepository userRepository;
 
-    public void saveMemo(MemoCreateDto memoCreateDto, Long userId){
-        Optional<User> OptUser=userRepository.findById(userId);
+    public void saveMemo(MemoCreateDto memoCreateDto, String uuid){
+        Optional<User> OptUser=userRepository.findByUuid(uuid);
         if(OptUser.isPresent()){
             User user=OptUser.get();
             Optional<PhotoBook> optP=photoBookRepository.findByUser(user);

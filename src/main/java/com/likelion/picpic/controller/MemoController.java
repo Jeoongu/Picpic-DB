@@ -26,10 +26,10 @@ public class MemoController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
-    @PostMapping("/create")
-    public ResponseEntity<?> createMemo(Authentication authentication,
+    @PostMapping("/create/{uuid}")
+    public ResponseEntity<?> createMemo(@PathVariable("uuid")String uuid,
                                         MemoCreateDto memoCreateDto){
-        memoService.saveMemo(memoCreateDto, s3Service.getUserId(authentication.getName()));
+        memoService.saveMemo(memoCreateDto, uuid);
         return ResponseEntity.ok().build();
     }
 

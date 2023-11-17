@@ -27,8 +27,8 @@ public class PhotoBook {
     @Column
     private String name;
 
-    @ElementCollection
-    @CollectionTable(name = "photo_book_photos", joinColumns = @JoinColumn(name = "photo_book_id"))
+    @ElementCollection  //컬렉션을 칼럼으로 매핑해주는 어노테이션 (별도의 테이블 생성)
+    @CollectionTable(name = "photo_book_photos", joinColumns = @JoinColumn(name = "photo_book_id")) //임시로 생성할 테이블 설정
     @Column(name = "photos")
     private List<String> photos;  //동적 포토북 사진 리스트
 

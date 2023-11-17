@@ -60,4 +60,6 @@ public class PhotoController{
             return new ResponseEntity<>("삭제에 실패하셨습니다", HttpStatus.BAD_REQUEST);
         }
     }
+
+
 }

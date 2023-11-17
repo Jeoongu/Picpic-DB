@@ -85,7 +85,7 @@ public class FrameController {
     })
     @GetMapping("/get/sticker/{theme}")
     public ResponseEntity<List<String>> getStickerList(Authentication authentication,
-                                         @PathVariable String theme){
+                                         @PathVariable("theme") String theme){
         List<String> stickerList=s3Service.findStickerImageUrls("sticker", theme);
         return ResponseEntity.ok().body(stickerList);
     }
