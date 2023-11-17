@@ -27,14 +27,16 @@ public class PhotoBook {
     @Column
     private String name;
 
-    @Column
-    private List<String> photoList;  //동적 포토북 사진 리스트
+    @ElementCollection
+    @CollectionTable(name = "photo_book_photos", joinColumns = @JoinColumn(name = "photo_book_id"))
+    @Column(name = "photo")
+    private List<String> photos;  //동적 포토북 사진 리스트
 
     public static PhotoBook from(User userF, CreatePhotoBookDto createPhotoBookDto){
         return PhotoBook.builder()
                 .user(userF)
                 .name(createPhotoBookDto.getName())
-                .photoList(createPhotoBookDto.getAddPhotoList())
+                .photos(createPhotoBookDto.getAddPhotoList())
                 .build();
     }
 }

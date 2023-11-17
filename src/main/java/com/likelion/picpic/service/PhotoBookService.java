@@ -35,6 +35,6 @@ public class PhotoBookService {
         User user=optUser.get();
         Optional<PhotoBook> optPhotoBook=photoBookRepository.findByUser(user);
         if(optPhotoBook.isEmpty()) throw new DataNotFoundException("포토북이 존재하지 않습니다.");
-        return optPhotoBook.get().getPhotoList();
+        return optPhotoBook.get().getPhotos();
     }
 }
