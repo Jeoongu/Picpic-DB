@@ -29,7 +29,7 @@ public class PhotoBook {
 
     @ElementCollection
     @CollectionTable(name = "photo_book_photos", joinColumns = @JoinColumn(name = "photo_book_id"))
-    @Column(name = "photo")
+    @Column(name = "photos")
     private List<String> photos;  //동적 포토북 사진 리스트
 
     public static PhotoBook from(User userF, CreatePhotoBookDto createPhotoBookDto){
