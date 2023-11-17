@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,9 @@ public class UserService {
         Optional<User> optUser=userRepository.findByEmail(userEmail);
         if(optUser.isPresent()) throw new DataNotFoundException("아이디가 겹칩니다.");
         else{
+            String uuid = UUID.randomUUID().toString();
             User user=User.from(userJoinDto);
+            user.setUuid(uuid);
             userRepository.save(user);
         }
     }

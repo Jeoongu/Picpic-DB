@@ -15,5 +15,6 @@ public class UserJoinDto {
     private String nickname;
     private String image;
     private int birth;
+    private String uuid;
     private String gender;
 }
