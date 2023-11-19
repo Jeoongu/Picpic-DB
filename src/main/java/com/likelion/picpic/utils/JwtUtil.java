@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 public class JwtUtil {  //토큰생성유틸
@@ -14,17 +15,24 @@ public class JwtUtil {  //토큰생성유틸
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiredMs))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes(StandardCharsets.UTF_8))
                 .compact();
     }
-    
-    public static boolean isExpired(String token, String secretKey){ //토큰 기간 점검
-       return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().
-               getExpiration().before(new Date()); 
+
+    private static byte[] getSecretKeyBytes(String secretKey) {
+        return secretKey.getBytes(StandardCharsets.UTF_8);
     }
-    
-    public static String getEmail(String token, String secretKey){  //토큰에서 userName꺼내기
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
-                .getBody().get("email", String.class);  //"email"이라는 키로 꺼내기
+
+    public static boolean isExpired(String token, String secretKey) {
+        byte[] secretKeyBytes = getSecretKeyBytes(secretKey);
+        return Jwts.parser().setSigningKey(secretKeyBytes).parseClaimsJws(token).getBody()
+                .getExpiration().before(new Date());
+    }
+
+    public static String getEmail(String token, String secretKey) {
+        byte[] secretKeyBytes = getSecretKeyBytes(secretKey);
+        return Jwts.parser().setSigningKey(secretKeyBytes).parseClaimsJws(token)
+                .getBody().get("email", String.class);
     }
 }
+

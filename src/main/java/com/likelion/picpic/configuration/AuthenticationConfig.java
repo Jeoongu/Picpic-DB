@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class AuthenticationConfig{
     private final UserService userService;
-    @Value("&{jwt.secret}")
+    @Value("${jwt.secret}")
     private String secretKey;
 
     @Bean

@@ -5,6 +5,7 @@ import com.likelion.picpic.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,7 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {  //FilterChain에서 권�
             return;
         }
         String email=JwtUtil.getEmail(token, secretKey);
-        log.info("email: ", email);
+        log.info("email: {}", email);
 
         UsernamePasswordAuthenticationToken authenticationToken=
                 new UsernamePasswordAuthenticationToken(email, null, List.of(new

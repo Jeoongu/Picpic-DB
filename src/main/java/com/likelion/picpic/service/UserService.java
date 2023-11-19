@@ -18,7 +18,7 @@ import java.util.UUID;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
-    @Value("&{jwt.secret}")
+    @Value("${jwt.secret}")
     private String secretKey;
     private Long expiredMs=1000*60*60l;  //1시간
 
