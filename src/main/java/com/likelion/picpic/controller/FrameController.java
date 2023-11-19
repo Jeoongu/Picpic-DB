@@ -44,6 +44,11 @@ public class FrameController {
     })
     @GetMapping("/get/frame")
     public ResponseEntity<List<String>> findFrame(Authentication authentication){
+        if (authentication == null) {
+            // 여기서는 예시로 401 Unauthorized 응답을 보내고 있습니다.
+            // 상황에 따라 적절한 상태 코드와 메시지를 설정할 수 있습니다.
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ArrayList<>());
+        }
         List<String> urlsList=s3Service.findImageUrlsByUserId(authentication.getName(), "frame");
         return ResponseEntity.ok().body(urlsList);
     }
