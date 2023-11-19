@@ -2,6 +2,7 @@ package com.likelion.picpic.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -30,7 +31,8 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .consumes(getConsumeContentTypes())
                 .produces(getProduceContentTypes())
-                .apiInfo(apiInfo()).select()
+                .apiInfo(apiInfo())
+                .select()
                 // controller 파일들이 있는 경로(패키지?) 설정
                 .apis(RequestHandlerSelectors.basePackage("com.likelion.picpic.controller"))
                 .paths(PathSelectors.any())

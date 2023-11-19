@@ -26,7 +26,7 @@ public class S3Service {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
-    @Value("&{jwt.secret}")
+    @Value("${jwt.secret}")
     private String secretKey;
 
     public Long getUserId(String email){
