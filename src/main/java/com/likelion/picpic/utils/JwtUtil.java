@@ -19,7 +19,7 @@ public class JwtUtil {  //토큰생성유틸
                 .compact();
     }
 
-    private static byte[] getSecretKeyBytes(String secretKey) {
+    private static byte[] getSecretKeyBytes(String secretKey){
         return secretKey.getBytes(StandardCharsets.UTF_8);
     }
 
