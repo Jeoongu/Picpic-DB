@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+/*
 @Configuration
 @EnableWebSecurity  //지정한 기능에 인증 강요
 @RequiredArgsConstructor
@@ -47,3 +47,5 @@ public class AuthenticationConfig{
                 .build();
     }
 }
+
+ */
