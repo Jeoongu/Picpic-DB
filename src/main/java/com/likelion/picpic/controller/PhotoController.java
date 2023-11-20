@@ -26,7 +26,7 @@ public class PhotoController{
     private final S3Service s3Service;
     private final PhotoService photoService;
 
-    @PostMapping("/save")
+    @PostMapping
     @ApiOperation(value = "사진 저장 api", notes = "헤더로 토큰, 바디로 이미지 주면돼")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -47,7 +47,7 @@ public class PhotoController{
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<?> deletePhoto(Authentication authentication,
                                          String url){
         try{

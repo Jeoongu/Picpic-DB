@@ -26,7 +26,7 @@ public class MemoController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
-    @PostMapping("/save/{uuid}")
+    @PostMapping("/{uuid}")
     public ResponseEntity<?> createMemo(@PathVariable("uuid")String uuid,
                                         MemoCreateDto memoCreateDto){
         memoService.saveMemo(memoCreateDto, uuid);
@@ -38,7 +38,7 @@ public class MemoController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<?> deleteMemo(Authentication authentication,
                                         MemoCreateDto memoCreateDto){
         memoService.deleteMemo(memoCreateDto);

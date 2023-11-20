@@ -5,6 +5,7 @@ import com.likelion.picpic.domain.Memo;
 import com.likelion.picpic.domain.PhotoBook;
 import com.likelion.picpic.domain.User;
 import com.likelion.picpic.dto.CreatePhotoBookDto;
+import com.likelion.picpic.dto.GetPhotosAndMemosAndUuidDto;
 import com.likelion.picpic.dto.GetPhotosAndMemosDto;
 import com.likelion.picpic.repository.PhotoBookRepository;
 import com.likelion.picpic.repository.UserRepository;
@@ -43,6 +44,22 @@ public class PhotoBookService {
         GetPhotosAndMemosDto dto=new GetPhotosAndMemosDto();
         dto.setPhotoList(photoList);
         dto.setMemoList(memoList);
+        return dto;
+    }
+
+    public GetPhotosAndMemosAndUuidDto getPhotosAndUuid(String email){
+        Optional<User> optUser=userRepository.findByEmail(email);
+        if(optUser.isEmpty()) throw new DataNotFoundException("유저를 찾지 못하였습니다.");
+        User user=optUser.get();
+        Optional<PhotoBook> optPhotoBook=photoBookRepository.findByUser(user);
+        if(optPhotoBook.isEmpty()) throw new DataNotFoundException("포토북이 존재하지 않습니다.");
+        PhotoBook photoBook=optPhotoBook.get();
+        List<Memo> memoList=photoBook.getMemoList();
+        List<String> photoList=photoBook.getPhotos();
+        GetPhotosAndMemosAndUuidDto dto=new GetPhotosAndMemosAndUuidDto();
+        dto.setPhotoList(photoList);
+        dto.setMemoList(memoList);
+        dto.setUuid(user.getUuid());
         return dto;
     }
 }

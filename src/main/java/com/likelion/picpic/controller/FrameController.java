@@ -23,7 +23,7 @@ import java.util.List;
 public class FrameController {
     private final S3Service s3Service;
 
-    @PostMapping("/save")
+    @PostMapping
     @ApiOperation(value = "프레임 저장 api", notes = "헤더로 토큰, 바디로 이미지 주면돼")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -42,7 +42,7 @@ public class FrameController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
-    @GetMapping("/frameList")
+    @GetMapping("/list")
     public ResponseEntity<List<String>> findFrame(Authentication authentication){
         if (authentication == null) {
             // 여기서는 예시로 401 Unauthorized 응답을 보내고 있습니다.
@@ -58,7 +58,7 @@ public class FrameController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<?> deleteFrame(Authentication authentication,
                                          String url){
         s3Service.deleteImage("url");
@@ -70,7 +70,7 @@ public class FrameController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<?> updateFrame(Authentication authentication,
                                          String url, @RequestPart MultipartFile frame){
         try {
