@@ -49,15 +49,8 @@ public class FrameController {
             // 상황에 따라 적절한 상태 코드와 메시지를 설정할 수 있습니다.
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ArrayList<>());
         }
-        //authentication 정보 뜯어보기
-        List<String> auth=new ArrayList<>();
-        auth.add(authentication.getName());
-        return ResponseEntity.ok().body(auth);
-        //디버깅 전용 코드
-        /*
         List<String> urlsList=s3Service.findImageUrlsByUserId(authentication.getName(), "frame");
         return ResponseEntity.ok().body(urlsList);
-         */
     }
 
     @ApiOperation(value = "특정 Frame 지우기", notes = "이미지명으로 받아야돼")
