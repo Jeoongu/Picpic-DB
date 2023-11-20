@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 // 모든 요청에 대해 접근 허용
                 .authorizeRequests()
-                .antMatchers("/user/join", "/user/login", "/swagger-ui/*").permitAll() // 로그인 및 회원가입 경로 허용
+                .antMatchers("/user/join", "/user/login", "/swagger-ui/**").permitAll() // 로그인 및 회원가입 경로 허용
                 .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 .and()
                 // JWT 필터 추가

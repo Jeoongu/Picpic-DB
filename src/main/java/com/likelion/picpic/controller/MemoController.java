@@ -26,7 +26,7 @@ public class MemoController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
-    @PostMapping("/create/{uuid}")
+    @PostMapping("/save/{uuid}")
     public ResponseEntity<?> createMemo(@PathVariable("uuid")String uuid,
                                         MemoCreateDto memoCreateDto){
         memoService.saveMemo(memoCreateDto, uuid);
