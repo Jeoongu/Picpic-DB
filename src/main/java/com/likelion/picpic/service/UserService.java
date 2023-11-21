@@ -51,6 +51,6 @@ public class UserService {
 
     public void checkEmail(String email){
         Optional<User> optUser=userRepository.findByEmail(email);
-        if(optUser.isEmpty()) throw new DataNotFoundException("이메일이 이미 존재합니다.");
+        if(optUser.isPresent()) throw new DataNotFoundException("이메일이 이미 존재합니다.");
     }
 }

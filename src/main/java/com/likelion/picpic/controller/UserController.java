@@ -21,6 +21,17 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
+    @ApiOperation(value = "이메일 중복 체크", notes = "토큰 필요 없음, url로 이메일 붙이면 돼")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "이메일 중복 없음"),
+            @ApiResponse(code = 401, message = "이메일 중복 있음")
+    })
+    @PostMapping("/{email}")
+    public ResponseEntity<?> checkEmail(@PathVariable("email") String email){
+        userService.checkEmail(email);
+        return ResponseEntity.ok().build();
+    }
+
     @ApiOperation(value = "회원가입 api", notes = "토큰 필요 없음")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -44,17 +55,4 @@ public class UserController {
         String password= userEmailAndPassword.getPassword();
         return ResponseEntity.ok().body(userService.login(email, password));
     }
-
-    @ApiOperation(value = "이메일 중복 체크", notes = "토큰 필요 없음, 바디문으로 이메일 주면 돼")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "이메일 중복 없음"),
-            @ApiResponse(code = 401, message = "이메일 중복 있음")
-    })
-    @PostMapping("/{email}")
-    public ResponseEntity<?> checkEmail(@PathVariable String email){
-        userService.checkEmail(email);
-        return ResponseEntity.ok().build();
-    }
-
-
 }
