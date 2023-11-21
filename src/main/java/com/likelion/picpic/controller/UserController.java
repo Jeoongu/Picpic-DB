@@ -50,7 +50,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "이메일 중복 없음"),
             @ApiResponse(code = 401, message = "이메일 중복 있음")
     })
-    @PostMapping("/email/{email}")
+    @PostMapping("/{email}")
     public ResponseEntity<?> checkEmail(@PathVariable String email){
         userService.checkEmail(email);
         return ResponseEntity.ok().build();
