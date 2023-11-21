@@ -8,6 +8,8 @@ import com.likelion.picpic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +17,18 @@ import java.util.Optional;
 public class PhotoService {
     private final PhotoRepository photoRepository;
     private final UserRepository userRepository;
+
+    public List<String> getPhotoList(Long userId){
+        Optional<User> optUser=userRepository.findById(userId);
+        if(optUser.isEmpty()) throw new DataNotFoundException("유저를 찾지 못하였습니다.");
+        User user=optUser.get();
+        List<Photo> list=photoRepository.findByUser(user);
+        List<String> photoList=new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            photoList.add(list.get(i).getUrl());
+        }
+        return photoList;
+    }
 
     public void savePhoto(Long userId, String url){
         Optional<User> optUser=userRepository.findById(userId);
