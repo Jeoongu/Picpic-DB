@@ -25,13 +25,17 @@ public class MemoService {
         Optional<User> OptUser=userRepository.findByUuid(uuid);
         if(OptUser.isPresent()){
             User user=OptUser.get();
-            Optional<PhotoBook> optP=photoBookRepository.findByUser(user);
-            if(optP.isPresent()){
-                PhotoBook photoBook=optP.get();
-                Memo memo=Memo.from(memoCreateDto, photoBook);
-                memoRepository.save(memo);
-            }
-            else throw new DataNotFoundException("포토북이 없습니다.");
+
+            Long id = user.getPhotoBook().getId();
+
+            Optional<PhotoBook> optionalPhotoBook = photoBookRepository.findById(id);
+            if(optionalPhotoBook.isEmpty()) throw new DataNotFoundException("포토북이 존재하지 않습니다.");
+
+            PhotoBook photoBook=optionalPhotoBook.get();
+            Memo memo=Memo.from(memoCreateDto, photoBook);
+
+            System.out.println(memoCreateDto.getContent());
+            memoRepository.save(memo);
         }
         else throw new DataNotFoundException("유저가 없습니다.");
     }

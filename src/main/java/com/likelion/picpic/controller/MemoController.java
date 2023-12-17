@@ -28,7 +28,7 @@ public class MemoController {
     })
     @PostMapping("/{uuid}")
     public ResponseEntity<?> createMemo(@PathVariable("uuid")String uuid,
-                                        MemoCreateDto memoCreateDto){
+                                        @RequestBody MemoCreateDto memoCreateDto){
         memoService.saveMemo(memoCreateDto, uuid);
         return ResponseEntity.ok().build();
     }

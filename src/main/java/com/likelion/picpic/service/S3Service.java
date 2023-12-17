@@ -12,13 +12,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Pattern;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
 
 @Service
 @RequiredArgsConstructor
@@ -82,30 +88,28 @@ public class S3Service {
 
     }
 
-    // 버킷에 올라간 파일 삭제, 버킷내의 폴더를 두어 할 경우 수정해야할듯
-//    public void deleteImage(String originalFilename)  {
-//        amazonS3.deleteObject(bucket, originalFilename);
-//    }
-
     public void deleteFrameImage(String email, String url)  {
         Long userId = userService.findUserId(email);
 
         String originalFilename = extractFilenameFromS3Url(url);
-
+        System.out.println(originalFilename);
         amazonS3.deleteObject(bucket, "frame/" + userId + "/" + originalFilename);
     }
 
-    private String extractFilenameFromS3Url(String s3Url) {
+    private static String extractFilenameFromS3Url(String s3Url) {
         try {
-            URI uri = new URI(s3Url);
-            String path = uri.getPath();
-            // 경로에서 파일 이름 추출
-            return path.substring(path.lastIndexOf('/') + 1);
-        } catch (URISyntaxException e) {
+            URL url = new URL(s3Url);
+            String path = url.getPath();
+            String[] pathComponents = path.split("/");
+            String filename = pathComponents[pathComponents.length - 1];
+            // URL 디코딩 후 파일 이름 추출
+            String decodedFilename = java.net.URLDecoder.decode(filename, StandardCharsets.UTF_8.name());
+            return decodedFilename;
+        } catch (Exception e) {
             throw new IllegalArgumentException("Invalid S3 URL", e);
         }
     }
-    
+
     //userId로 이미지 저장된거 다 가져오기
     public List<String> findImageUrlsByUserId(String email, String directory) {
         Long userId=getUserId(email);
