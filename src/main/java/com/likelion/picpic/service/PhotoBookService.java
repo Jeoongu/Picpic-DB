@@ -55,10 +55,15 @@ public class PhotoBookService {
         Optional<User> optUser=userRepository.findByEmail(email);
         if(optUser.isEmpty()) throw new DataNotFoundException("유저를 찾지 못하였습니다.");
         User user=optUser.get();
-        Optional<PhotoBook> optPhotoBook=photoBookRepository.findByUser(user);
-        if(optPhotoBook.isEmpty()) throw new DataNotFoundException("포토북이 존재하지 않습니다.");
 
-        PhotoBook photoBook=optPhotoBook.get();
+        Long id = user.getPhotoBook().getId();
+
+        Optional<PhotoBook> optionalPhotoBook = photoBookRepository.findById(id);
+
+//        Optional<PhotoBook> optPhotoBook=photoBookRepository.findByUser(user);
+        if(optionalPhotoBook.isEmpty()) throw new DataNotFoundException("포토북이 존재하지 않습니다.");
+
+        PhotoBook photoBook=optionalPhotoBook.get();
         List<Memo> memoList=photoBook.getMemoList();
         List<String> photoList=photoBook.getPhotos();
         GetPhotosAndMemosAndUuidDto dto=new GetPhotosAndMemosAndUuidDto();
