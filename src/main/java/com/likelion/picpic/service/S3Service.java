@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -85,11 +87,24 @@ public class S3Service {
 //        amazonS3.deleteObject(bucket, originalFilename);
 //    }
 
-    public void deleteFrameImage(String email, String originalFilename)  {
+    public void deleteFrameImage(String email, String url)  {
         Long userId = userService.findUserId(email);
+
+        String originalFilename = extractFilenameFromS3Url(url);
+
         amazonS3.deleteObject(bucket, "frame/" + userId + "/" + originalFilename);
     }
 
+    private String extractFilenameFromS3Url(String s3Url) {
+        try {
+            URI uri = new URI(s3Url);
+            String path = uri.getPath();
+            // 경로에서 파일 이름 추출
+            return path.substring(path.lastIndexOf('/') + 1);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid S3 URL", e);
+        }
+    }
     
     //userId로 이미지 저장된거 다 가져오기
     public List<String> findImageUrlsByUserId(String email, String directory) {

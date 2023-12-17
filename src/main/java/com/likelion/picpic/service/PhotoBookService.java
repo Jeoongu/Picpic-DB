@@ -40,9 +40,14 @@ public class PhotoBookService {
         Optional<User> optUser=userRepository.findByUuid(uuid);
         if(optUser.isEmpty()) throw new DataNotFoundException("유저를 찾지 못하였습니다.");
         User user=optUser.get();
-        Optional<PhotoBook> optPhotoBook=photoBookRepository.findByUser(user);
-        if(optPhotoBook.isEmpty()) throw new DataNotFoundException("포토북이 존재하지 않습니다.");
-        PhotoBook photoBook=optPhotoBook.get();
+
+        Long id = user.getPhotoBook().getId();
+
+        Optional<PhotoBook> optionalPhotoBook = photoBookRepository.findById(id);
+
+        if(optionalPhotoBook.isEmpty()) throw new DataNotFoundException("포토북이 존재하지 않습니다.");
+
+        PhotoBook photoBook=optionalPhotoBook.get();
         List<Memo> memoList=photoBook.getMemoList();
         List<String> photoList=photoBook.getPhotos();
         GetPhotosAndMemosDto dto=new GetPhotosAndMemosDto();
@@ -50,6 +55,8 @@ public class PhotoBookService {
         dto.setMemoList(memoList);
         return dto;
     }
+    //        Optional<PhotoBook> optPhotoBook=photoBookRepository.findByUser(user);
+//        if(optPhotoBook.isEmpty()) throw new DataNotFoundException("포토북이 존재하지 않습니다.");
 
     public GetPhotosAndMemosAndUuidDto getPhotosAndUuid(String email){
         Optional<User> optUser=userRepository.findByEmail(email);
