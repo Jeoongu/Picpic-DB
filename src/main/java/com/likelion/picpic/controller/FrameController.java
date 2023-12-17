@@ -61,7 +61,8 @@ public class FrameController {
     @DeleteMapping
     public ResponseEntity<?> deleteFrame(Authentication authentication,
                                          String url){
-        s3Service.deleteImage("url");
+        String email=authentication.getName();
+        s3Service.deleteFrameImage(email, "url");
         return ResponseEntity.ok().build();
     }
 

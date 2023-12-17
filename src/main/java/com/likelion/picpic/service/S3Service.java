@@ -81,8 +81,13 @@ public class S3Service {
     }
 
     // 버킷에 올라간 파일 삭제, 버킷내의 폴더를 두어 할 경우 수정해야할듯
-    public void deleteImage(String originalFilename)  {
-        amazonS3.deleteObject(bucket, originalFilename);
+//    public void deleteImage(String originalFilename)  {
+//        amazonS3.deleteObject(bucket, originalFilename);
+//    }
+
+    public void deleteFrameImage(String email, String originalFilename)  {
+        Long userId = userService.findUserId(email);
+        amazonS3.deleteObject(bucket, "frame/" + userId + "/" + originalFilename);
     }
 
     

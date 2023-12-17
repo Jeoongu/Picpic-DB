@@ -32,11 +32,21 @@ public class PhotoBook {
     @Column(name = "photos")
     private List<String> photos;  //동적 포토북 사진 리스트
 
+//    public static PhotoBook from(User userF, CreatePhotoBookDto createPhotoBookDto){
+//        return PhotoBook.builder()
+//                .user(userF)
+//                .name(createPhotoBookDto.getName())
+//                .photos(createPhotoBookDto.getAddPhotoList())
+//                .build();
+//    }
+
     public static PhotoBook from(User userF, CreatePhotoBookDto createPhotoBookDto){
-        return PhotoBook.builder()
+        PhotoBook photoBook = PhotoBook.builder()
                 .user(userF)
                 .name(createPhotoBookDto.getName())
                 .photos(createPhotoBookDto.getAddPhotoList())
                 .build();
+        userF.setPhotoBook(photoBook);
+        return photoBook;
     }
 }
