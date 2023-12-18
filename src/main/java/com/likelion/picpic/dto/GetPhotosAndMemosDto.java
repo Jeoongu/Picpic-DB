@@ -14,5 +14,5 @@ import java.util.List;
 @NoArgsConstructor
 public class GetPhotosAndMemosDto {
     private List<String> photoList;
-    private List<Memo> memoList;
+    private List<MemoCreateDto> memoList;
 }

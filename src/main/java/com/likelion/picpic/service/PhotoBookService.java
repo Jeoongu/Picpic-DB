@@ -7,11 +7,13 @@ import com.likelion.picpic.domain.User;
 import com.likelion.picpic.dto.CreatePhotoBookDto;
 import com.likelion.picpic.dto.GetPhotosAndMemosAndUuidDto;
 import com.likelion.picpic.dto.GetPhotosAndMemosDto;
+import com.likelion.picpic.dto.MemoCreateDto;
 import com.likelion.picpic.repository.PhotoBookRepository;
 import com.likelion.picpic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,10 +51,16 @@ public class PhotoBookService {
 
         PhotoBook photoBook=optionalPhotoBook.get();
         List<Memo> memoList=photoBook.getMemoList();
+        //
+        List<MemoCreateDto> memoCreateDtoList=new ArrayList<>();
+        for(int i=0;i< memoList.size();i++) {
+            memoCreateDtoList.add(MemoCreateDto.from(memoList.get(i)));
+        }
+
         List<String> photoList=photoBook.getPhotos();
         GetPhotosAndMemosDto dto=new GetPhotosAndMemosDto();
         dto.setPhotoList(photoList);
-        dto.setMemoList(memoList);
+        dto.setMemoList(memoCreateDtoList);
         return dto;
     }
     //        Optional<PhotoBook> optPhotoBook=photoBookRepository.findByUser(user);
@@ -72,10 +80,14 @@ public class PhotoBookService {
 
         PhotoBook photoBook=optionalPhotoBook.get();
         List<Memo> memoList=photoBook.getMemoList();
+        List<MemoCreateDto> memoCreateDtoList=new ArrayList<>();
+        for(int i=0;i< memoList.size();i++) {
+            memoCreateDtoList.add(MemoCreateDto.from(memoList.get(i)));
+        }
         List<String> photoList=photoBook.getPhotos();
         GetPhotosAndMemosAndUuidDto dto=new GetPhotosAndMemosAndUuidDto();
         dto.setPhotoList(photoList);
-        dto.setMemoList(memoList);
+        dto.setMemoList(memoCreateDtoList);
         dto.setUuid(user.getUuid());
         return dto;
     }
