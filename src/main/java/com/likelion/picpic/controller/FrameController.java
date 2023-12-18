@@ -62,7 +62,7 @@ public class FrameController {
     public ResponseEntity<?> deleteFrame(Authentication authentication,
                                          @RequestBody String url){
         String email=authentication.getName();
-        s3Service.deleteFrameImage(email, "url");
+        s3Service.deleteFrameImage(email, url);
         return ResponseEntity.ok().build();
     }
 
