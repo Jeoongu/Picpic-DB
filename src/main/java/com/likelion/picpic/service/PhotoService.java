@@ -3,6 +3,7 @@ package com.likelion.picpic.service;
 import com.likelion.picpic.DataNotFoundException;
 import com.likelion.picpic.domain.Photo;
 import com.likelion.picpic.domain.User;
+import com.likelion.picpic.dto.ReturnPhotoListDto;
 import com.likelion.picpic.repository.PhotoRepository;
 import com.likelion.picpic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class PhotoService {
     private final PhotoRepository photoRepository;
     private final UserRepository userRepository;
 
-    public List<String> getPhotoList(Long userId){
+    public ReturnPhotoListDto getPhotoList(Long userId){
         Optional<User> optUser=userRepository.findById(userId);
         if(optUser.isEmpty()) throw new DataNotFoundException("유저를 찾지 못하였습니다.");
         User user=optUser.get();
@@ -27,7 +28,11 @@ public class PhotoService {
         for(int i=0;i<list.size();i++){
             photoList.add(list.get(i).getUrl());
         }
-        return photoList;
+        ReturnPhotoListDto returnPhotoListDto=new ReturnPhotoListDto();
+        returnPhotoListDto.setPhotoList(photoList);
+        if(user.getPhotoBook()!=null) returnPhotoListDto.setPresent(true);
+        else returnPhotoListDto.setPresent(false);
+        return returnPhotoListDto;
     }
 
     public void savePhoto(Long userId, String url){

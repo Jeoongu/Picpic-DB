@@ -2,6 +2,7 @@ package com.likelion.picpic.controller;
 
 import com.likelion.picpic.DataNotFoundException;
 import com.likelion.picpic.domain.User;
+import com.likelion.picpic.dto.ReturnPhotoListDto;
 import com.likelion.picpic.service.PhotoService;
 import com.likelion.picpic.service.S3Service;
 import io.swagger.annotations.Api;
@@ -48,10 +49,11 @@ public class PhotoController{
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "실패")
     })
-    public ResponseEntity<?> getPhotoList(Authentication authentication)
+    public ResponseEntity<ReturnPhotoListDto> getPhotoList(Authentication authentication)
             throws IOException{
         String email=authentication.getName();
         Long userId=s3Service.getUserId(email);
+        ReturnPhotoListDto returnPhotoListDto=new ReturnPhotoListDto();
         return ResponseEntity.ok().body(photoService.getPhotoList(userId));
     }
 
