@@ -92,9 +92,7 @@ public class S3Service {
         Long userId = userService.findUserId(email);
 
         String originalFilename = extractFilenameFromS3Url(url);
-        System.out.println("originalFilename = " + originalFilename);
-        System.out.println(originalFilename);
-        amazonS3.deleteObject(bucket, "frame/" + userId + "/" + originalFilename);
+        amazonS3.deleteObject(new DeleteObjectRequest(bucket, "frame/" + userId + "/" + originalFilename));
     }
 
     private static String extractFilenameFromS3Url(String s3Url) {
